@@ -42,8 +42,8 @@ var area_list = new Vue({
           };
           axios.get('https://m9th3qj7ig.execute-api.ap-northeast-1.amazonaws.com/production/get', request_setting).then(
             (response) => {
-              var condition_list = response;
-              console.log(response);
+              var condition_list = JSON.parse(response.data.body);
+              console.log(condition_list);
               // 複数条件で絞り込む
               this.filtered_area_list = this.area_list.filter((area_data) => {
                 for (var index = 0; index < condition_list.length; index++) {
