@@ -36,26 +36,14 @@ var area_list = new Vue({
         (position) => {
           var request_setting = {
             params: {
-              latlng: `${position.coords.latitude},${position.coords.longitude}`,
-              key: 'AIzaSyDB2ycApLRLUjpzPl9k2LuKx5dPoQU4u1E'
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude
             }
           };
-          axios.get('https://maps.googleapis.com/maps/api/geocode/json', request_setting).then(
+          axios.get('https://m9th3qj7ig.execute-api.ap-northeast-1.amazonaws.com/production/get', request_setting).then(
             (response) => {
-              var get_generic_name_list = [];
-              var condition_list = [];
-
-              response.data.results.forEach((result) => {
-                result.address_components.forEach((address_component) => {
-                  get_generic_name_list.push(address_component.long_name);
-                });
-              });
-
-              // 重複を削除する
-              condition_list = get_generic_name_list.filter((element, index, self) => {
-                return self.indexOf(element) === index;
-              });
-
+              var condition_list = response;
+              console.log(response);
               // 複数条件で絞り込む
               this.filtered_area_list = this.area_list.filter((area_data) => {
                 for (var index = 0; index < condition_list.length; index++) {
