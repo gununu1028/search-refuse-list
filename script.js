@@ -5,8 +5,7 @@ var area_list = new Vue({
     filtered_area_list: null,
     modal_opened: false,
     selected_area_data: null,
-    input_area_name: '',
-    area_name_conditions: null
+    input_area_name: ''
   },
   mounted() {
     axios.get('https://script.google.com/macros/s/AKfycbyYMvoHo4may5LlbtEzZ2hRzN1OrAiRcYh59psPxrXLi-WNREgx/exec').then(
@@ -44,6 +43,7 @@ var area_list = new Vue({
           axios.get('https://maps.googleapis.com/maps/api/geocode/json', request_setting).then(
             (response) => {
               var get_generic_name_list = [];
+              var condition_list = [];
 
               response.data.results.forEach((result) => {
                 result.address_components.forEach((address_component) => {
@@ -52,25 +52,24 @@ var area_list = new Vue({
               });
 
               // 重複を削除する
-              this.area_name_conditions = get_generic_name_list.filter((element, index, self) => {
+              condition_list = get_generic_name_list.filter((element, index, self) => {
                 return self.indexOf(element) === index;
               });
 
               // 複数条件で絞り込む
               this.filtered_area_list = this.area_list.filter((area_data) => {
-                for (var index = 0; index < this.area_name_conditions.length; index++) {
-                  if (area_data.area_name.indexOf(this.area_name_conditions[index]) != -1) {
+                for (var index = 0; index < condition_list.length; index++) {
+                  if (area_data.area_name.indexOf(condition_list[index]) != -1) {
                     return true;
                   }
                 }
                 return false;
               });
-
             }
           );
         },
         (error) => {
-          (error.code == 1) ? alert('位置情報の利用が許可されていません'): alert('位置情報が取得できませんでした');
+          (error.code == 1) ? alert('位置情報の利用が許可されていません') : alert('位置情報が取得できませんでした');
         }
       );
     }
