@@ -12,11 +12,14 @@
   <h1>山形市 地区別収集曜日一覧</h1>
   <div id="area_list">
     <div>
+      <button type="button" v-on:click="search_by_gps">現在の位置情報で検索</button>
+    </div>
+    <div>
       <input type="text" v-model="input_area_name">
       <button type="button" name="button" v-on:click="search">検索</button>
     </div>
     <ul>
-      <li v-for="area_data in show_area_list">
+      <li v-for="area_data in filtered_area_list">
         <a href="#" v-on:click="select(area_data)">{{ area_data.area_name }}</a>
       </li>
     </ul>
@@ -45,7 +48,7 @@
       el: '#area_list',
       data: {
         area_list: null,
-        show_area_list: null,
+        filtered_area_list: null,
         modal_opened: false,
         selected_area_data: null,
         input_area_name: ''
@@ -54,7 +57,7 @@
         axios.get('https://script.google.com/macros/s/AKfycbyYMvoHo4may5LlbtEzZ2hRzN1OrAiRcYh59psPxrXLi-WNREgx/exec').then(
           (response) => {
             this.area_list = response.data
-            this.show_area_list = response.data
+            this.filtered_area_list = response.data
           }
         );
       },
@@ -67,9 +70,32 @@
           this.modal_opened = false;
         },
         search() {
-          this.$nextTick(() => {
-            this.show_area_list = this.area_list.filter(area_data => area_data.area_name.indexOf(this.input_area_name) != -1);
-          });
+          this.filtered_area_list = this.area_list.filter(area_data => area_data.area_name.indexOf(this.input_area_name) != -1);
+        },
+        search_by_gps() {
+          if (!navigator.geolocation) {
+            alert('お使いの端末では位置情報が取得できません');
+            return;
+          }
+          // 現在地を取得
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              alert("緯度:" + position.coords.latitude + ",経度" + position.coords.longitude);
+            },
+            (error) => {
+              switch (error.code) {
+                case 1: //PERMISSION_DENIED
+                  alert('位置情報の利用が許可されていません');
+                  break;
+                case 2: //POSITION_UNAVAILABLE
+                  alert('位置情報が取得できませんでした');
+                  break;
+                default:
+                  alert('位置情報が取得できませんでした');
+                  break;
+              }
+            }
+          );
         }
       }
     });
