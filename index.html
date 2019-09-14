@@ -80,20 +80,20 @@
           // 現在地を取得
           navigator.geolocation.getCurrentPosition(
             (position) => {
-              alert("緯度:" + position.coords.latitude + ",経度" + position.coords.longitude);
+              var request_setting = {
+                params: {
+                  latlng: `${position.coords.latitude},${position.coords.longitude}`,
+                  key: 'AIzaSyDB2ycApLRLUjpzPl9k2LuKx5dPoQU4u1E'
+                }
+              };
+              axios.get('https://maps.googleapis.com/maps/api/geocode/json', request_setting).then(
+                (response) => {
+                  console.log(response);
+                }
+              );
             },
             (error) => {
-              switch (error.code) {
-                case 1: //PERMISSION_DENIED
-                  alert('位置情報の利用が許可されていません');
-                  break;
-                case 2: //POSITION_UNAVAILABLE
-                  alert('位置情報が取得できませんでした');
-                  break;
-                default:
-                  alert('位置情報が取得できませんでした');
-                  break;
-              }
+              (error.code == 1) ? alert('位置情報の利用が許可されていません'): alert('位置情報が取得できませんでした')
             }
           );
         }
