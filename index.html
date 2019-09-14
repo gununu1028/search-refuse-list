@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+  <title>山形市 地区別収集曜日一覧</title>
+</head>
+
+<body>
+  <h1>山形市 地区別収集曜日一覧</h1>
+  <div id="area_list">
+    <ul>
+      <li v-for="area_data in area_list">
+        <a href="#" v-on:click="select(area_data)">{{ area_data.area_name }}</a>
+      </li>
+    </ul>
+    <transition name="slide">
+      <div id="modal-window" v-show="modal_opened" v-if="selected_area_data">
+        <h2>{{ selected_area_data.area_name }}</h2>
+        <ul>
+          <li>もやせるごみ：{{ selected_area_data.burnable }}</li>
+          <li>ビン・カン：{{ selected_area_data.recyclable }}</li>
+          <li>プラスチック：{{ selected_area_data.plastics }}</li>
+          <li>ペットボトル：{{ selected_area_data.petbottle }}</li>
+          <li>埋立ごみ：{{ selected_area_data.landfill }}</li>
+        </ul>
+        <p v-if="selected_area_data.remarks">
+          備考<br>
+          {{ selected_area_data.remarks }}
+        </p>
+        <button type="button" v-on:click="close">閉じる</button>
+      </div>
+    </transition>
+  </div>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script type="text/javascript">
+    var area_list = new Vue({
+      el: '#area_list',
+      data: {
+        area_list: null,
+        modal_opened: false,
+        selected_area_data: null
+      },
+      mounted: function() {
+        axios.get('https://script.google.com/macros/s/AKfycbyYMvoHo4may5LlbtEzZ2hRzN1OrAiRcYh59psPxrXLi-WNREgx/exec').then(
+          response => (this.area_list = response.data)
+        );
+      },
+      methods: {
+        select: function(area_data) {
+          this.modal_opened = true;
+          this.selected_area_data = area_data;
+        },
+        close: function() {
+          this.modal_opened = false;
+        }
+      }
+    });
+  </script>
+</body>
