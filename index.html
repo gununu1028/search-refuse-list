@@ -9,33 +9,39 @@
   <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <title>山形市 地区別収集曜日一覧</title>
+  <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  <script defer src="script.js"></script>
 </head>
 
 <body>
-  <div id="area_list">
+  <div id="main-application" v-cloak>
     <v-app>
       <div>
         <v-app-bar color="green darken-4" dark>
           山形市 地区別収集曜日一覧
         </v-app-bar>
       </div>
-      <div>
-        <v-row>
-          <v-col cols="6">
-            <v-text-field v-model="input_area_name" label="地名を入力"></v-text-field>
-          </v-col>
-          <v-col cols="6">
-            <v-btn v-on:click="search">検索</v-btn>
-          </v-col>
-        </v-row>
-      </div>
-      <div>
-        <span v-for="area_data in filtered_area_list">
-          <v-btn v-on:click="select(area_data)" class="underline" color="blue accent-4" text>
-            {{ area_data.area_name }}
-          </v-btn>
-        </span>
-      </div>
+      <v-container>
+        <div>
+          <v-row>
+            <v-col cols="8" md="4" class="pl-6">
+              <v-text-field v-model="input_area_name" @keyup="search" label="地名を入力"></v-text-field>
+            </v-col>
+            <v-col cols="4" class="pt-6">
+              <v-btn @click="search">検索</v-btn>
+            </v-col>
+          </v-row>
+        </div>
+        <div>
+          <span v-for="area_data in filtered_area_list">
+            <v-btn @click="select(area_data)" class="underline" color="blue accent-4" text>
+              {{ area_data.area_name }}
+            </v-btn>
+          </span>
+        </div>
+      </v-container>
       <transition name="slide">
         <v-card id="modal-window" v-show="modal_opened" v-if="selected_area_data">
           <v-card-title>
@@ -54,15 +60,11 @@
               {{ selected_area_data.remarks }}
             </p>
           </v-card-text>
-          <v-card-actions>
-            <v-btn v-on:click="close">閉じる</v-btn>
+          <v-card-actions class="pl-6">
+            <v-btn @click="close">閉じる</v-btn>
           </v-card-actions>
         </v-card>
       </transition>
     </v-app>
   </div>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
-  <script src="script.js"></script>
 </body>

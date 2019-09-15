@@ -1,5 +1,5 @@
-var area_list = new Vue({
-  el: '#area_list',
+new Vue({
+  el: '#main-application',
   vuetify: new Vuetify(),
   data: {
     area_list: null,

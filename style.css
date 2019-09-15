@@ -6,8 +6,12 @@
   height: 100%;
   margin: auto;
   border: 1px solid black;
-  background-color: whitesmoke;
   opacity: 1;
+  padding: 1rem;
+}
+
+[v-cloak] {
+  display: none;
 }
 
 .slide-enter-active {
