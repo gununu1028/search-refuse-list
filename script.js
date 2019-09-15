@@ -1,5 +1,6 @@
 var area_list = new Vue({
   el: '#area_list',
+  vuetify: new Vuetify(),
   data: {
     area_list: null,
     filtered_area_list: null,

@@ -3,45 +3,56 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@3.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <title>山形市 地区別収集曜日一覧</title>
 </head>
 
 <body>
-  <h1>山形市 地区別収集曜日一覧</h1>
   <div id="area_list">
-    <div>
-      <button type="button" v-on:click="search_by_gps">現在の位置情報で検索</button>
-    </div>
-    <div>
-      <input type="text" v-model="input_area_name">
-      <button type="button" name="button" v-on:click="search">地名で検索</button>
-    </div>
-    <ul>
-      <li v-for="area_data in filtered_area_list">
-        <a href="#" v-on:click="select(area_data)">{{ area_data.area_name }}</a>
-      </li>
-    </ul>
-    <transition name="slide">
-      <div id="modal-window" v-show="modal_opened" v-if="selected_area_data">
-        <h2>{{ selected_area_data.area_name }}</h2>
-        <ul>
-          <li>もやせるごみ：{{ selected_area_data.burnable }}</li>
-          <li>ビン・カン：{{ selected_area_data.recyclable }}</li>
-          <li>プラスチック：{{ selected_area_data.plastics }}</li>
-          <li>ペットボトル：{{ selected_area_data.petbottle }}</li>
-          <li>埋立ごみ：{{ selected_area_data.landfill }}</li>
-        </ul>
-        <p v-if="selected_area_data.remarks">
-          備考<br>
-          {{ selected_area_data.remarks }}
-        </p>
-        <button type="button" v-on:click="close">閉じる</button>
+    <v-app>
+      <div>
+        <v-app-bar color="green darken-4" dark>
+          山形市 地区別収集曜日一覧
+        </v-app-bar>
       </div>
-    </transition>
+
+      <div>
+        <button type="button" v-on:click="search_by_gps">現在の位置情報で検索</button>
+      </div>
+      <div>
+        <input type="text" v-model="input_area_name">
+        <button type="button" name="button" v-on:click="search">地名で検索</button>
+      </div>
+      <ul>
+        <li v-for="area_data in filtered_area_list">
+          <a href="#" v-on:click="select(area_data)">{{ area_data.area_name }}</a>
+        </li>
+      </ul>
+      <transition name="slide">
+        <div id="modal-window" v-show="modal_opened" v-if="selected_area_data">
+          <h2>{{ selected_area_data.area_name }}</h2>
+          <ul>
+            <li>もやせるごみ：{{ selected_area_data.burnable }}</li>
+            <li>ビン・カン：{{ selected_area_data.recyclable }}</li>
+            <li>プラスチック：{{ selected_area_data.plastics }}</li>
+            <li>ペットボトル：{{ selected_area_data.petbottle }}</li>
+            <li>埋立ごみ：{{ selected_area_data.landfill }}</li>
+          </ul>
+          <p v-if="selected_area_data.remarks">
+            備考<br>
+            {{ selected_area_data.remarks }}
+          </p>
+          <button type="button" v-on:click="close">閉じる</button>
+        </div>
+      </transition>
+    </v-app>
   </div>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
   <script src="script.js"></script>
 </body>
