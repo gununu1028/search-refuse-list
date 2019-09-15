@@ -20,15 +20,12 @@
         </v-app-bar>
       </div>
       <div>
-        <button type="button" v-on:click="search_by_gps">現在の位置情報で検索</button>
-      </div>
-      <div>
         <v-row>
           <v-col cols="6">
-            <v-text-field v-model="input_area_name"></v-text-field>
+            <v-text-field v-model="input_area_name" label="地名を入力"></v-text-field>
           </v-col>
           <v-col cols="6">
-            <v-btn v-on:click="search">地名で検索</v-btn>
+            <v-btn v-on:click="search">検索</v-btn>
           </v-col>
         </v-row>
       </div>
