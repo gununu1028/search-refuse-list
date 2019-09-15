@@ -32,27 +32,35 @@
           </v-col>
         </v-row>
       </div>
-      <ul>
-        <li v-for="area_data in filtered_area_list">
-          <a href="#" v-on:click="select(area_data)">{{ area_data.area_name }}</a>
-        </li>
-      </ul>
+      <div>
+        <span v-for="area_data in filtered_area_list">
+          <v-btn v-on:click="select(area_data)" class="underline" color="blue accent-4" text>
+            {{ area_data.area_name }}
+          </v-btn>
+        </span>
+      </div>
       <transition name="slide">
-        <div id="modal-window" v-show="modal_opened" v-if="selected_area_data">
-          <h2>{{ selected_area_data.area_name }}</h2>
-          <ul>
-            <li>もやせるごみ：{{ selected_area_data.burnable }}</li>
-            <li>ビン・カン：{{ selected_area_data.recyclable }}</li>
-            <li>プラスチック：{{ selected_area_data.plastics }}</li>
-            <li>ペットボトル：{{ selected_area_data.petbottle }}</li>
-            <li>埋立ごみ：{{ selected_area_data.landfill }}</li>
-          </ul>
-          <p v-if="selected_area_data.remarks">
-            備考<br>
-            {{ selected_area_data.remarks }}
-          </p>
-          <button type="button" v-on:click="close">閉じる</button>
-        </div>
+        <v-card id="modal-window" v-show="modal_opened" v-if="selected_area_data">
+          <v-card-title>
+            {{ selected_area_data.area_name }}
+          </v-card-title>
+          <v-card-text>
+            <ul>
+              <li>もやせるごみ：{{ selected_area_data.burnable }}</li>
+              <li>ビン・カン：{{ selected_area_data.recyclable }}</li>
+              <li>プラスチック：{{ selected_area_data.plastics }}</li>
+              <li>ペットボトル：{{ selected_area_data.petbottle }}</li>
+              <li>埋立ごみ：{{ selected_area_data.landfill }}</li>
+            </ul>
+            <p v-if="selected_area_data.remarks">
+              備考<br>
+              {{ selected_area_data.remarks }}
+            </p>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn v-on:click="close">閉じる</v-btn>
+          </v-card-actions>
+        </v-card>
       </transition>
     </v-app>
   </div>

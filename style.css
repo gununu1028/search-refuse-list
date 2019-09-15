@@ -18,6 +18,10 @@
   animation: show-modal-window 500ms reverse;
 }
 
+.underline {
+  text-decoration: underline;
+}
+
 @keyframes show-modal-window {
   0% {
     opacity: 0;
