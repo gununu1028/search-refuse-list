@@ -1,3 +1,3 @@
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production' ? '/search-refuse-list/' : '/'
+  publicPath: process.env.NODE_ENV === 'production' ? '/refuse-yamagata/' : '/'
 }
